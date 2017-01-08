@@ -1,0 +1,5 @@
+network_name: dcunderground
+tinc_name_host: nuit
+connect_to_tinc_host: baal
+your_external_ip_or_domain: yourdomainorip
+tinc_allowed_net: 10.0.8.20

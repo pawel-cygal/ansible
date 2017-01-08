@@ -1,0 +1,5 @@
+server_user: anubis
+app_user: anubis
+group: anubis
+package_source: repository
+do_upgrade: no

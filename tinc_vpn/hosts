@@ -1,0 +1,3 @@
+[dev]
+ubuntu ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+centos ansible_ssh_host=127.0.0.1 ansible_ssh_port=2223

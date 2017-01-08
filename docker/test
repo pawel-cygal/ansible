@@ -1,0 +1,2 @@
+[test]
+172.16.1.57	ansible_ssh_user=admin

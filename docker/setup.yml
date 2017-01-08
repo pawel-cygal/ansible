@@ -1,0 +1,10 @@
+#
+#  This playbook requires that 'gp_standards' playbook is applied before.
+#
+
+- name: Installing requirements
+  user: "{{ server_user }}"
+  hosts: "{{ env }}"
+  become: true 
+  roles:
+    - packages

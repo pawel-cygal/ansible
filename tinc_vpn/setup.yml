@@ -1,0 +1,6 @@
+- name: Installing requirements
+  user: "{{ user }}"
+  hosts: "{{ hosts }}"
+  become: true
+  roles:
+    - install

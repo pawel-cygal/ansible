@@ -26,5 +26,5 @@ examples:
 	network_name: dcunderground  - tinc network name 
 	tinc_name_host: nuit  - tinc host name
 	connect_to_tinc_host: baal - tinc automatic connect to host 
-	your_external_ip_or_domain: nuit.cygal.net.pl - your external IP or domain name
+	your_external_ip_or_domain:  example.com - your external IP or domain name
 	tinc_allowed_net: 10.0.8.20 - your networks ruted via tinc

@@ -4,14 +4,14 @@
     - "58118E89F3A912897C070ADBF76221572C52609D"
   when: package_source == 'repository'
 
-- name: update cache system
+- name: Update cache system
   apt: update_cache=yes
 
-- name: upgrade system
+- name: Upgrade system
   apt: upgrade=yes
   when: do_upgrade == "yes" 
 
-- name: install required packages (apt-transport-https,ca-certificates)
+- name: Install required packages (apt-transport-https,ca-certificates)
   apt: name={{ item }} state=present
   with_items:
     - "apt-transport-https"
@@ -21,33 +21,33 @@
     - "cgroup-lite"
     - "cgroup-bin" 
 
-- name: create new repo file (/etc/apt/sources.list.d/docker.list)
+- name: Create new repo file (/etc/apt/sources.list.d/docker.list)
   file: path=/etc/apt/sources.list.d/docker.list state=touch
 
-- name: add repo to repofile if ubuntu14.04 
+- name: Add repo to repofile if ubuntu14.04 
   copy: content="deb https://apt.dockerproject.org/repo ubuntu-trusty main" dest="/etc/apt/sources.list.d/docker.list"
   when: (ansible_distribution_release ==  "trusty")
 
-- name: add repo to repofile if ubuntu16.04
+- name: Add repo to repofile if ubuntu16.04
   copy: content="deb https://apt.dockerproject.org/repo ubuntu-xenial main" dest="/etc/apt/sources.list.d/docker.list"
   when: (ansible_distribution_release == "xenial")
 
-- name: update cache once again
+- name: Update cache once again
   apt: update_cache=yes
 
-- name: purge previous lxc-docker version
+- name: Purge previous lxc-docker version
   apt: pkg=lxc-docker state=absent purge=yes force=yes
 
-- name: install linux-image-extra 
+- name: Install linux-image-extra 
   shell: apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
 
-- name: install docker engine
+- name: Install docker engine
   apt: pkg=docker-engine state=present
 
-- name: adding users to docker group
+- name: Adding users to docker group
   shell: usermod -aG docker {{ item }}
   with_items:
     - "{{ group }}"
 
-- name: run docker engine
+- name: Run docker engine
   service: name=docker state=started enabled=yes

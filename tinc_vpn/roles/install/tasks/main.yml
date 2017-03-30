@@ -1,20 +1,20 @@
 ---
-- name: update Ubuntu cache system
+- name: Update Ubuntu cache system
   apt: update_cache=yes
   when: (ansible_distribution == "Ubuntu")
 
-- name: upgrade Ubuntu system
+- name: Upgrade Ubuntu system
   apt: upgrade=yes
   when: (do_upgrade == "yes") and (ansible_distribution == "Ubuntu")
 
-- name: install Ubuntu required packages (tinc)
+- name: Install Ubuntu required packages (tinc)
   apt: name={{ item }} state=present
   with_items:
     - "tinc"
     - "expect"
   when: (ansible_distribution == "Ubuntu")
   
-- name: install required packages
+- name: Install required packages
   yum: name={{ item }} state=present
   with_items:
     - "gcc"
@@ -27,45 +27,45 @@
     - "expect"
   when: (ansible_distribution == "CentOS")
 
-- name: check if tinc is installed
+- name: Check if tinc is installed
   stat: path=/usr/local/sbin/tincd
   register: tincd_installed
   
-- name: download source code from official website (tinc-vpn.org)
+- name: Download source code from official website (tinc-vpn.org)
   get_url:
     url: https://www.tinc-vpn.org/packages/tinc-{{ tinc_version }}.tar.gz
     dest: /tmp/tinc-{{ tinc_version }}.tar.gz
   when: (ansible_distribution == "CentOS") and (tincd_installed.stat.exists == False)
   
-- name: extract tar archive
+- name: Extract tar archive
   unarchive: src=/tmp/tinc-{{ tinc_version }}.tar.gz dest=/tmp remote_src=yes
   when: (ansible_distribution == "CentOS") and (tincd_installed.stat.exists == False)
   
-- name: configure, make and make install
+- name: Configure, make and make install
   shell: cd /tmp/tinc-{{ tinc_version }} && ./configure --sysconfdir=/etc && make && make install
   when: (ansible_distribution == "CentOS") and (tincd_installed.stat.exists == False)
   
-- name: clean after compilation
+- name: Clean after compilation
   file: path=/tmp/tinc-{{ item }} state=absent
   with_items:
     - "{{ tinc_version }}"
     - "{{ tinc_version }}.tar.gz"
   when: (ansible_distribution == "CentOS")
   
-- name: check if /etc/tinc direcoroy exist
+- name: Check if /etc/tinc direcoroy exist
   stat: path=/etc/tinc
   register: conf_dir
   
-- name: create configuration directory if not exists
+- name: Create configuration directory if not exists
   file: path=/etc/tinc/{{ network_name }}/hosts state=directory mode=750 owner=root recurse=yes
   when: conf_dir.stat.exists == False
   
-- name: create tinc.conf file
+- name: Create tinc.conf file
   template: src=tinc.conf.j2 dest=/etc/tinc/{{ network_name }}/tinc.conf
   
-- name: create tinc host file
+- name: Create tinc host file
   template: src=tinc_hostfile.j2 dest=/etc/tinc/{{ network_name }}/hosts/{{ tinc_name_host }}
   
-- name: upload expect script to generate tinc keys
+- name: Upload expect script to generate tinc keys
   script: scripts/gen_tinc_keys.exp {{ network_name }} 
   

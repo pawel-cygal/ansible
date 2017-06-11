@@ -1,10 +1,10 @@
-#This is simple ansible playbook which installs Tinc mesh vpn client on Ubuntu/Debian or Centos operation system.
+# This is simple ansible playbook which installs Tinc mesh vpn client on Ubuntu/Debian or Centos operation system.
 
-##example:
+## example:
 
-```ansible-playbook -i hosts setup.yml``
+```ansible-playbook -i hosts setup.yml```
 
-##configuration:
+## configuration:
 
 ```
 roles/install/defaults/main.yml - default settings for install role
@@ -14,9 +14,9 @@ group_vars/stg - specific settings for staging enviroment
 group_vars/prod - specific setting for production enviroment
 ```
 
-#variables:
+# variables:
 
-##examples:
+## examples:
 
 ```
 roles/install/defaults/main.yml :

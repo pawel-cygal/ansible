@@ -1,4 +1,4 @@
-#This is simple ansible playbook which installs Tinc mesh vpn client on Ubuntu or Centos operation system.
+#This is simple ansible playbook which installs Tinc mesh vpn client on Ubuntu/Debian or Centos operation system.
 
 ##example:
 

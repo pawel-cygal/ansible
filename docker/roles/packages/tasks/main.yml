@@ -22,27 +22,40 @@
     - "cgroup-bin" 
 
 - name: Create new repo file (/etc/apt/sources.list.d/docker.list)
-  file: path=/etc/apt/sources.list.d/docker.list state=touch
+  file: 
+    path: /etc/apt/sources.list.d/docker.list
+    state: touch
 
 - name: Add repo to repofile if ubuntu14.04 
-  copy: content="deb https://apt.dockerproject.org/repo ubuntu-trusty main" dest="/etc/apt/sources.list.d/docker.list"
+  copy: 
+    content: "deb https://apt.dockerproject.org/repo ubuntu-trusty main" 
+    dest: "/etc/apt/sources.list.d/docker.list"
   when: (ansible_distribution_release ==  "trusty")
 
 - name: Add repo to repofile if ubuntu16.04
-  copy: content="deb https://apt.dockerproject.org/repo ubuntu-xenial main" dest="/etc/apt/sources.list.d/docker.list"
+  copy: 
+    content: "deb https://apt.dockerproject.org/repo ubuntu-xenial main" 
+    dest: "/etc/apt/sources.list.d/docker.list"
   when: (ansible_distribution_release == "xenial")
 
 - name: Update cache once again
-  apt: update_cache=yes
+  apt: 
+    update_cache: yes
 
 - name: Purge previous lxc-docker version
-  apt: pkg=lxc-docker state=absent purge=yes force=yes
+  apt: 
+    pkg: lxc-docker 
+    state: absent 
+    purge: yes 
+    force: yes
 
 - name: Install linux-image-extra 
   shell: apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
 
 - name: Install docker engine
-  apt: pkg=docker-engine state=present
+  apt: 
+    pkg: docker-engine 
+    state: present
 
 - name: Adding users to docker group
   shell: usermod -aG docker {{ item }}
@@ -50,4 +63,7 @@
     - "{{ group }}"
 
 - name: Run docker engine
-  service: name=docker state=started enabled=yes
+  service: 
+    name: docker 
+    state: started 
+    enabled: yes
